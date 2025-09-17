@@ -1,0 +1,56 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.phonebook'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.seleniumhq.selenium:selenium-java:4.23.0'
+    testImplementation 'org.testng:testng:7.10.2'
+    implementation 'ch.qos.logback:logback-classic:1.5.18'
+}
+
+test {
+    useTestNG()
+}
+
+/**
+ * Запуск конкретного testng suite через -Psuite=suite1|suite2|suite3
+ * и передача браузера через -Pbrowser=firefox (опционально)
+ */
+tasks.register('qa1', Test) {
+    useTestNG() {
+        def suite = (project.findProperty('suite') ?: 'suite1').toString()
+        switch (suite) {
+            case 'suite1':
+                suites 'src/test/resources/testng.xml'
+                break
+            case 'suite2':
+                suites 'src/test/resources/smoky.xml'
+                break
+            case 'suite3':
+                suites 'src/test/resources/negative.xml'
+                break
+            default:
+                throw new GradleException("Unknown -Psuite=${suite}. Use suite1|suite2|suite3")
+        }
+    }
+    if (project.hasProperty('browser')) {
+        systemProperty 'browser', "${browser}"
+    }
+    // Чтобы было видно, что выбрано
+    doFirst {
+        println ">>> suite=${project.findProperty('suite') ?: 'suite1'}, browser=${project.findProperty('browser') ?: '(default)'}"
+    }
+}
