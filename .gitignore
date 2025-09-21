@@ -1,18 +1,20 @@
-.gradle
+# === Gradle caches & outputs ===
+/.gradle/
+/build/
 
-
-### IntelliJ IDEA ###
-*.idea
-*.iws
+# === IntelliJ IDEA ===
+/.idea/
+/out/
 *.iml
+*.iws
 *.ipr
-out/
 
-/gradle/
-settings.gradle
-\gradlew
-gradlew/
-gradlew.bat
-
+# === Logs & misc ===
 *.log
 *.png
+
+# === НЕ игнорировать (должно быть в репо) ===
+# settings.gradle
+# gradle/wrapper/**
+# gradlew
+# gradlew.bat
