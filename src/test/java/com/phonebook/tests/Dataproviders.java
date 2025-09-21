@@ -1,4 +1,4 @@
-package com.phonebook.utils;
+package com.phonebook.tests;
 
 import com.phonebook.models.Contact;
 import org.testng.annotations.DataProvider;
